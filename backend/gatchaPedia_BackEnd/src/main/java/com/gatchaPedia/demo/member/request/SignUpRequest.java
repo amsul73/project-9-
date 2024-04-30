@@ -31,5 +31,4 @@ public class SignUpRequest {
     @Email(message = "유효하지 않은 이메일 형식입니다.")
     private String email;
 
-
 }
