@@ -2,7 +2,6 @@ package com.gatchaPedia.demo.handler;
 
 
 import com.gatchaPedia.demo.member.exception.DuplicateMemberByEmailException;
-import com.gatchaPedia.demo.member.exception.DuplicateMemberByNameException;
 import com.gatchaPedia.demo.member.exception.DuplicateMemberByUsernameException;
 import com.gatchaPedia.demo.member.exception.SignUpInvalidInputException;
 import com.gatchaPedia.demo.member.response.SignUpFailResponse;
@@ -13,13 +12,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice(annotations = Controller.class)
 public class SignUpExceptionManager {
-
-
-    @ExceptionHandler(DuplicateMemberByNameException.class)
-    public SignUpFailResponse memberDuplicateByNameExceptionHandle(){
-
-        return new SignUpFailResponse(false, "동일한 이름의 사용자가 있습니다.");
-    }
 
 
     @ExceptionHandler(DuplicateMemberByUsernameException.class)
