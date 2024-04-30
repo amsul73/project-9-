@@ -57,30 +57,21 @@ public class MemberServiceImpl implements MemberService{
     public LoginResponse login(LoginRequest loginRequest, HttpServletRequest request) {
 
         // DB에 해당 아이디가 없을경우 예외처리는 나중에
-        if(!memberRepository.existsByUsername(loginRequest.getUsername())){
-            System.out.println("그런 아이디는 없음");
-            throw new MemberUsernameNotExistException();
-        }
+        if(!memberRepository.existsByUsername(loginRequest.getUsername())) throw new MemberUsernameNotExistException();
 
         // DB에서 해당 아이디로 조회한 멤버의 비밀번호랑 입력 비밀번호가 다를시
         Member realMember = memberRepository.findByUsername(loginRequest.getUsername());
-        if(!realMember.getPassword().equals(loginRequest.getPassword())){
-            log.info("비밀번호 불일치");
-            throw new PasswordMissMatchException();
-        };
+        if(!realMember.getPassword().equals(loginRequest.getPassword()))throw new PasswordMissMatchException();
 
 
-        HttpSession httpSession = request.getSession(true);
+        // 세션 하나 만들어서 쿠키에 넣어주고
+        HttpSession httpSession = request.getSession();
         String sessionId = httpSession.getId();
+        // 서버 세션 저장소에 JSESSIONID의 값과, realMember의 정보 저장
         httpSession.setAttribute(sessionId,realMember);
-
 
         return new LoginResponse(true, "로그인 성공", realMember.getId());
     }
-
-
-
-
 
 
     private boolean checkDuplicateName(String name){

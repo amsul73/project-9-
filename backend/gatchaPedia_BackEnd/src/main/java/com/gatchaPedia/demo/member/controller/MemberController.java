@@ -1,5 +1,6 @@
 package com.gatchaPedia.demo.member.controller;
 
+import com.gatchaPedia.demo.member.exception.LoginInputInvalidException;
 import com.gatchaPedia.demo.member.exception.SignUpInvalidInputException;
 import com.gatchaPedia.demo.member.request.LoginRequest;
 import com.gatchaPedia.demo.member.request.SignUpRequest;
@@ -42,22 +43,19 @@ public class MemberController {
             throw new SignUpInvalidInputException(errorMessages);
         }
 
-
-
-        
-        
         return memberService.signup(signUpRequest);
     }
 
 
-
-
     @PostMapping("/login")
-    public LoginResponse login(@RequestBody LoginRequest loginRequest,
-                               HttpServletRequest request){
+    public LoginResponse login(@Validated @RequestBody LoginRequest loginRequest, BindingResult bindingResult, HttpServletRequest request){
 
+        if (bindingResult.hasErrors()) throw new LoginInputInvalidException();
 
         return memberService.login(loginRequest,request);
     }
+
+
+
 
 }

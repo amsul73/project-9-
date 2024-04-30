@@ -1,15 +1,15 @@
 package com.gatchaPedia.demo.handler;
 
 
-import com.gatchaPedia.demo.member.exception.*;
+import com.gatchaPedia.demo.member.exception.DuplicateMemberByEmailException;
+import com.gatchaPedia.demo.member.exception.DuplicateMemberByNameException;
+import com.gatchaPedia.demo.member.exception.DuplicateMemberByUsernameException;
+import com.gatchaPedia.demo.member.exception.SignUpInvalidInputException;
 import com.gatchaPedia.demo.member.response.SignUpFailResponse;
 import com.gatchaPedia.demo.member.response.SignUpInputFailResponse;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-
-import java.util.List;
 
 @RestControllerAdvice(annotations = Controller.class)
 public class SignUpExceptionManager {
