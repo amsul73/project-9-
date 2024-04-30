@@ -30,11 +30,13 @@ public class MemberServiceImpl implements MemberService{
 
 
         // 이미 존재하는 name으로 회원 가입을 시도 한다면
+
         if(checkDuplicateName(signUpRequest.getName())) throw new DuplicateMemberByNameException();
+
         // 이미 존재하는 username로 회원 가입을 시도 한다면
-        if(checkDuplicateUsername(signUpRequest.getUsername())) throw new DuplicateMemberByUsernameException();
+        if(checkDuplicateUsername(signUpRequest.getUsername())) throw new MemberDuplicateByUsernameException();
         // 이미 존재하는 email로 회원 가입을 시도 한다면
-        if(checkDuplicateEmail(signUpRequest.getEmail())) throw new DuplicateMemberByEmailException();
+        if(checkDuplicateEmail(signUpRequest.getEmail())) throw new MemberDuplicateByEmailException();
 
 
         // 모두 통과한 성공로직
@@ -66,7 +68,9 @@ public class MemberServiceImpl implements MemberService{
         Member realMember = memberRepository.findByUsername(loginRequest.getUsername());
         if(!realMember.getPassword().equals(loginRequest.getPassword())){
             log.info("비밀번호 불일치");
+
             throw new PasswordMissMatchException();
+
         };
 
 
