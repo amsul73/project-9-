@@ -16,5 +16,7 @@ public class SignUpInputFailResponse {
 
     private Boolean success;
 
+    private Long ERRCode;
+
     private List<String> errorMessages;
 }

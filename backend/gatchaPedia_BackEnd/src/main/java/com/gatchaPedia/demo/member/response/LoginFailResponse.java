@@ -14,5 +14,7 @@ public class LoginFailResponse {
 
     private Boolean success;
 
+    private Long ERRCode;
+
     private String message;
 }
