@@ -16,20 +16,20 @@ public class LoginExcepitonManager {
 
     @ExceptionHandler(MemberUsernameNotExistException.class)
     public LoginFailResponse memberUsernameNotExistExceptionHandle(){
-        return new LoginFailResponse(false,"아이디와 비밀번호를 다시 확인해 주세요");
+        return new LoginFailResponse(false,1004L,"아이디와 비밀번호를 다시 확인해 주세요");
     }
 
 
 
     @ExceptionHandler(PasswordMissMatchException.class)
     public LoginFailResponse passwordMissmatchExceptionHandle(){
-        return new LoginFailResponse(false,"아이디와 비밀번호를 다시 확인해 주세요");
+        return new LoginFailResponse(false,1004L,"아이디와 비밀번호를 다시 확인해 주세요");
     }
     
     
     @ExceptionHandler(LoginInputInvalidException.class)
     public LoginFailResponse loginInputInvalidExceptionHandle(){
-        return new LoginFailResponse(false,"아이디와 비밀번호를 다시 확인해 주세요");
+        return new LoginFailResponse(false,1004L,"아이디와 비밀번호를 다시 확인해 주세요");
     }
 
 }

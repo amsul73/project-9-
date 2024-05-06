@@ -6,15 +6,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
-
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class SignUpInputFailResponse {
+public class LoginFailResponse {
 
     private Boolean success;
 
-    private List<String> errorMessages;
+    private Long ERRCode;
+
+    private String message;
 }

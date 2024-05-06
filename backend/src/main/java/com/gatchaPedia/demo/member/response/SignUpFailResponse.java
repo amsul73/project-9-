@@ -13,5 +13,7 @@ public class SignUpFailResponse {
 
     private Boolean success;
 
+    private Long ERRCode;
+
     private String message;
 }

@@ -17,14 +17,14 @@ public class SignUpExceptionManager {
     @ExceptionHandler(DuplicateMemberByUsernameException.class)
     public SignUpFailResponse memberDuplicateByUsernameExceptionHandle(){
 
-        return new SignUpFailResponse(false,"동일한 아이디의 사용자가 있습니다.");
+        return new SignUpFailResponse(false,1001L,"동일한 아이디의 사용자가 있습니다.");
     }
 
 
     @ExceptionHandler(DuplicateMemberByEmailException.class)
     public SignUpFailResponse memberDuplicateByEmailExceptionHandle(){
 
-        return new SignUpFailResponse(false, "동일한 이메일로 가입한 사용자가 있습니다.");
+        return new SignUpFailResponse(false, 1002L,"동일한 이메일로 가입한 사용자가 있습니다.");
     }
 
 
@@ -32,7 +32,7 @@ public class SignUpExceptionManager {
     @ExceptionHandler(SignUpInvalidInputException.class)
     public SignUpInputFailResponse signUpInvaldInputExceptionHandle(SignUpInvalidInputException ex){
 
-        return new SignUpInputFailResponse(false,  ex.getErrorMessages());
+        return new SignUpInputFailResponse(false,  1003L, ex.getErrorMessages());
     }
 
 
