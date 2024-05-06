@@ -61,7 +61,7 @@ public class MemberServiceImpl implements MemberService{
 
 
         // 세션 하나 만들어서 쿠키에 넣어주고
-        HttpSession httpSession = request.getSession();
+        HttpSession httpSession = request.getSession(true);
         String sessionId = httpSession.getId();
         // 서버 세션 저장소에 JSESSIONID의 값과, realMember의 정보 저장
         httpSession.setAttribute(sessionId,realMember);
