@@ -67,8 +67,18 @@ function MyPage(props) {
                         <>
                         <p>회원탈퇴</p>
                         <hr />
-                        <form action="/" method="post" id="menu-form" >
-                            <input type="submit" value="수정" />
+                        <div className='caution-box'>
+                            회원 탈퇴를 하면 저장된 데이터가 모두 소실될 수 있습니다. <br/>
+                            회원 탈퇴를 진행하시겠습니까?
+                        </div>
+                        <form onSubmit={deleteMember} id="menu-form" >
+                            <div className='caution-box'>
+                                <input type="checkbox" value={checked} onChange={() => setChecked(!checked)} /> 
+                                <span>안내 사항을 모두 확인하였으며, 이에 동의합니다.</span><br /><br />
+                                회원 탈퇴 진행을 위해 비밀번호를 입력해주세요.
+                            </div>
+                            <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="비밀번호" /><br />
+                            <input type="submit" value="탈퇴하기" />
                         </form>
                         </>
                     )}
