@@ -19,7 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
-@Slf4j
 public class MemberServiceImpl implements MemberService{
 
     private final MemberRepository memberRepository;
@@ -53,6 +52,10 @@ public class MemberServiceImpl implements MemberService{
     @Override
     public LoginResponse login(LoginRequest loginRequest, HttpServletRequest request) {
 
+        // 서버가 배포가되면 DB와 Spring 서버가 다른곳에 올라감 == 통신하려면 네트워크 비용이 들어감
+        // 따라서 이렇게 member를 한번 확인하고 다시 꺼내오는 로직은 안좋음, 하지만 이 프로젝트는 일단 localhost로 시연만 할거니까
+        // 나중에 리팩토링
+
         // DB에 해당 아이디가 없을경우 예외처리는 나중에
         if(!memberRepository.existsByUsername(loginRequest.getUsername())) throw new MemberUsernameNotExistException();
         // DB에서 해당 아이디로 조회한 멤버의 비밀번호랑 입력 비밀번호가 다를시
@@ -66,7 +69,7 @@ public class MemberServiceImpl implements MemberService{
         // 서버 세션 저장소에 JSESSIONID의 값과, realMember의 정보 저장
         httpSession.setAttribute(sessionId,realMember);
 
-        return new LoginResponse(true, "로그인 성공", realMember.getId());
+        return new LoginResponse(true, "로그인 성공", realMember.getId(), realMember.getName());
     }
 
 

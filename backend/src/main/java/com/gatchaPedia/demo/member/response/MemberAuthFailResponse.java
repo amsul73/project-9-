@@ -9,14 +9,11 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class LoginResponse {
+public class MemberAuthFailResponse {
 
     private Boolean success;
 
+    private Long ERRCode;
+
     private String message;
-
-    private Long memberId;
-
-    private String memberName;
-
 }
