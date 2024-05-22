@@ -8,25 +8,30 @@ const Register = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [pass_confirm, setPassConfirm] = useState('');
-    const [realname, setRealname] = useState('');
+    const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const register = async (e) => {
         e.preventDefault();
-        try {
-            const res = await axios.post("/api/register", {
-                username:username,
-                password:password,
-                pass_confirm:pass_confirm,
-                realname:realname,
-                email:email,
-            })
-            //console.log(res.data)
-            alert(res.data['message'])
-            if(res.data['success'] === true) {
-                window.location.href="/"
+
+        if(password !== pass_confirm) {
+            alert("비밀번호가 동일하지 않습니다.")
+        }
+        else {
+            try {
+                const res = await axios.post("/api/signup", {
+                    username:username,
+                    password:password,
+                    name:name,
+                    email:email,
+                })
+                //console.log(res.data)
+                alert(res.data['message'])
+                if(res.data['success'] === true) {
+                    window.location.href="/"
+                }
+            } catch(err) {
+                console.error(err)
             }
-        } catch(err) {
-            console.error(err)
         }
     };
 
@@ -40,7 +45,7 @@ const Register = () => {
                     <input type="text" name="username" value={username} onChange={(e) => setUsername(e.target.value)} placeholder="아이디" />
                     <input type="password" name="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="비밀번호" />
                     <input type="password" name="confirm" value={pass_confirm} onChange={(e) => setPassConfirm(e.target.value)}placeholder="비밀번호 확인" />
-                    <input type="text" name="name" value={realname} onChange={(e) => setRealname(e.target.value)} placeholder="이름" />
+                    <input type="text" name="name" value={name} onChange={(e) => setName(e.target.value)} placeholder="이름" />
                     <input type="email" name="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="이메일" />
                     <input type="submit" value="회원가입" />
                 </form>

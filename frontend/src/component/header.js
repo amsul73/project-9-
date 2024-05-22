@@ -1,12 +1,25 @@
 import React, { useState } from 'react';
 import '../public/css/header.css';
 import Poster from '../public/img/poster.jpg';
+import cookie from 'react-cookies';
+
+function logout() {
+    cookie.remove('JSESSIONID')
+    cookie.remove('memberId')
+}
 
 function Header(props) {
 
     let loginStatus = null
-    if(1==2) { //유효 세션 존재할 때
-        loginStatus = [<span>환영합니다! ㅁㅁㅁ님</span>, <a href="/mypage">마이페이지</a>]
+    const user = cookie.load('JSESSIONID')
+    if(user !== undefined) {
+        try {
+            if(atob(user.split('.')[0]) === cookie.load('memberId')) { //유효 세션 존재할 때
+                loginStatus = [<span>환영합니다! {atob(user.split('.')[1])}님</span>, <a href="/mypage">마이페이지</a>, <a href="/" onClick={() => logout()}>로그아웃</a>]
+            }
+        } catch (err) {
+            alert("잘못된 접근입니다.")
+        }
     }
     else { //유효 세션 없을 때
         loginStatus = [<a href="/login">로그인</a>, <a href="/register">회원가입</a>]
@@ -41,6 +54,7 @@ function Header(props) {
             <nav>
                 {loginStatus[0]}
                 {loginStatus[1]}
+                {loginStatus[2]}
             </nav>
         </header>
     );
