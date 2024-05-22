@@ -2,6 +2,7 @@ package com.gatchaPedia.demo.movie.service;
 
 import com.gatchaPedia.demo.bookmark.entity.Bookmark;
 import com.gatchaPedia.demo.member.entity.Member;
+import com.gatchaPedia.demo.member.exception.MemberAuthException;
 import com.gatchaPedia.demo.movie.entity.Movie;
 import com.gatchaPedia.demo.movie.repository.MovieRepository;
 import com.gatchaPedia.demo.movie.request.AllMovieGetRequest;
@@ -75,6 +76,11 @@ public class MovieServiceImpl implements MovieService{
 
         HttpSession session = request.getSession(false);
         String sessionId = session.getId();
+
+
+        if (session == null || session.getAttribute(sessionId) == null) {      // session.get 하면 Member가 나와야함 없으면 에러
+            return new MainPageResponse(true,randomMovie.getMoviePhotoURL(),null);
+        }
 
         Member currentMember = (Member) session.getAttribute(sessionId);
 

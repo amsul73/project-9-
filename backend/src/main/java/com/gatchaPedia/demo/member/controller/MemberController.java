@@ -69,20 +69,4 @@ public class MemberController {
     }
 
 
-
-    // 로그아웃 임시 테스트 ,, 삭제 예정
-    @GetMapping("/test")
-    public String test(HttpServletRequest request){
-
-        HttpSession session = request.getSession(false);
-        String sessionId = session.getId();
-
-        Member member = (Member) session.getAttribute(sessionId);
-
-        return member.getName() + " " + member.getId();
-    }
-
-
-
-
 }

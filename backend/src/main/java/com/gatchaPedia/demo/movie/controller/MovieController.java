@@ -31,7 +31,7 @@ public class MovieController {
 
 
 
-    @GetMapping("mainpage")
+    @GetMapping("/mainpage")
     public MainPageResponse mainPage(HttpServletRequest request){
 
         return movieService.getMoviesForMainPage(request);
