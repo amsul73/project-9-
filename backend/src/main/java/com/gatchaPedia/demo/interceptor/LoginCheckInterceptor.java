@@ -1,4 +1,4 @@
-package com.gatchaPedia.interceptor;
+package com.gatchaPedia.demo.interceptor;
 
 import com.gatchaPedia.demo.member.exception.MemberAuthException;
 import jakarta.servlet.http.HttpServletRequest;

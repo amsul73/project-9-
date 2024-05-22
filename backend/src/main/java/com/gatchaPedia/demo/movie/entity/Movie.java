@@ -20,6 +20,9 @@ public class Movie {
     private String title;
 
     @Lob
+    private String overView;
+
+    @Lob
     private String moviePhotoURL;
 
     private BigDecimal rating;
