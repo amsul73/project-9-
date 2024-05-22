@@ -6,7 +6,7 @@ import cookie from 'react-cookies';
 
 const Login = () => {
 
-    if(0) {
+    if(cookie.load('JSESSIONID')) {
         //이미 로그인 했을 때
         alert("유효하지 않은 접근입니다.")
         window.location.href = "/";
@@ -22,15 +22,8 @@ const Login = () => {
                 username:username,
                 password:password,
             })
-
             alert(res.data['message'])
             if(res.data['success'] === true) {
-                const expires = new Date()
-                expires.setMinutes(expires.getMinutes() + 60)
-                cookie.save('userid', res.data['memberId'], {
-                    path : '/',
-                    expires,
-                });
                 window.location.href="/"
             }
         } catch(err) {

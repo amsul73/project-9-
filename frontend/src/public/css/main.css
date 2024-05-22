@@ -25,7 +25,7 @@ hr {
 }
 
 .logo {
-    padding-bottom: 10%;
+    padding-bottom: 50px;
     font-size: 100%;
     color: #ff0000;
 }
@@ -98,37 +98,74 @@ hr {
 /* main.js  */
 
 .movie {
-    display: flex;
     width:100%;
 }
 
 .movie > div > a > img {
-    width: 70%;
-    height: 100%;
-}
-
-.movie-genre > p {
-    padding: 10px;
-    border: 1px solid red;
-    border-radius: 10px;
-}
-
-.movie-genre > p:hover {
-    padding: 10px;
-    background-color: #ff0000;
-    border: 1px solid red;
+    width:30%;
 }
 
 #reroll {
-    margin-top: 50px;
+    margin-top: 30px;
 }
 
 #reroll > button {
     background-color: #ff0000;
     color:#FFFFFF;
-    width: 30%;
+    width: 150px;
     height:36px;
     border-radius: 10px;
+    cursor: pointer;
+}
+
+#reroll > button:hover {
+    background-color: #ff4343;
+}
+
+h5 {
+    margin-top: 50px;
+}
+
+.carousel-div {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 794px;
+    background-color: #383838;
+    border-radius: 5px;
+    margin-top: 30px;
+    overflow-x:hidden;
+}
+
+.carousel-items {
+    padding-top:7px;
+}
+
+.carousel-button {
+    height:100%;
+    background-color: #0000007f;
+    color:#FFFFFF;
+    padding:15px;
+    cursor: pointer;
+}
+
+.carousel-button.prev, .carousel-button.next {
+    position: absolute;
+}
+
+.carousel-button.prev {
+    left: 0; 
+}
+  
+.carousel-button.next {
+    right: 0;
+}
+
+.carousel-img {
+    width: 100px;
+    height: 150px;
+    margin: 0px 10px;
 }
 
 /* mypage.js */
