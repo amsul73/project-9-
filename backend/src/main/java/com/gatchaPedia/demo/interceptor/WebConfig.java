@@ -1,4 +1,4 @@
-package com.gatchaPedia.interceptor;
+package com.gatchaPedia.demo.interceptor;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -15,7 +15,7 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addInterceptor(new LoginCheckInterceptor())    // 인터셉터 등록
                 .order(1)   // 1순위
                 .addPathPatterns("/**") //localhost8080:/ 아래 모든 애들에게 적용
-                .excludePathPatterns("/error","/login", "/logout","/","/signup");
+                .excludePathPatterns("/error","/login", "/mainpage","/","/signup");
     }
 
 }
