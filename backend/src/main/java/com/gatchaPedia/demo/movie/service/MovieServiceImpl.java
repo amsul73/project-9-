@@ -2,11 +2,10 @@ package com.gatchaPedia.demo.movie.service;
 
 import com.gatchaPedia.demo.movie.entity.Movie;
 import com.gatchaPedia.demo.movie.repository.MovieRepository;
-import com.gatchaPedia.demo.movie.response.MainPageResponse;
-import com.gatchaPedia.demo.movie.response.MovieRerollResponse;
-import com.gatchaPedia.demo.movie.response.Top100MovieListResponse;
-import com.gatchaPedia.demo.movie.response.Top100MovieResponse;
+import com.gatchaPedia.demo.movie.request.AllMovieGetRequest;
+import com.gatchaPedia.demo.movie.response.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -20,6 +19,8 @@ import java.util.Random;
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class MovieServiceImpl implements MovieService{
+
+    private final static int PAGING_SIZE = 15;
 
     private final MovieRepository movieRepository;
 
@@ -71,6 +72,31 @@ public class MovieServiceImpl implements MovieService{
         Movie randomMovie = randomMovieList.get(random.nextInt(randomMovieList.size()));
 
         return new MovieRerollResponse(true, randomMovie.getId(), randomMovie.getMoviePhotoURL(), "리롤 성공");
+    }
+
+    @Override
+    public AllMovieGetResponse getAllMovies(AllMovieGetRequest request) {
+
+        Page<Movie> movies = movieRepository.findAll(PageRequest.of(request.getCurrentPage(),PAGING_SIZE,Sort.by("Id").ascending()));
+
+        List <MovieResponseForAllMovie> movieList = new ArrayList<>();
+
+        for(Movie movie : movies){
+
+            MovieResponseForAllMovie response = new MovieResponseForAllMovie(movie.getId(), movie.getMoviePhotoURL());
+            movieList.add(response);
+        }
+
+
+        return new AllMovieGetResponse(
+                true,
+                movieList,
+                movies.getNumber(),
+                movies.getTotalPages(),
+                movies.isFirst(),
+                movies.isLast(),
+                "전체 영화리스트 반환성공"
+        );
     }
 
 

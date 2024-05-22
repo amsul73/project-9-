@@ -1,9 +1,7 @@
 package com.gatchaPedia.demo.movie.service;
 
-import com.gatchaPedia.demo.movie.response.MainPageResponse;
-import com.gatchaPedia.demo.movie.response.MovieRerollResponse;
-import com.gatchaPedia.demo.movie.response.Top100MovieListResponse;
-import com.gatchaPedia.demo.movie.response.Top100MovieResponse;
+import com.gatchaPedia.demo.movie.request.AllMovieGetRequest;
+import com.gatchaPedia.demo.movie.response.*;
 
 public interface MovieService {
 
@@ -12,4 +10,6 @@ public interface MovieService {
     MainPageResponse getMoviesForMainPage();
 
     MovieRerollResponse movieReroll();
+
+    AllMovieGetResponse getAllMovies(AllMovieGetRequest request);
 }
