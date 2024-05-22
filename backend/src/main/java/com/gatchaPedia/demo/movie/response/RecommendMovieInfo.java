@@ -5,17 +5,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
-
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class MainPageResponse {
-
-    private Boolean success;
-
-    private String gatchaPhotoUrl;
-
-    private List<RecommendMovieInfo> recommendList;
+public class RecommendMovieInfo {
+    private Long movieId;
+    private String moviePhotoUrl;
 }

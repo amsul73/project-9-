@@ -11,5 +11,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class MovieRecomendResponse {
 
+    private Long movieId;
+
     private String moviePhotoUrl;
 }

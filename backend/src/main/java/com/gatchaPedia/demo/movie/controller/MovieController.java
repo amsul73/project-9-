@@ -7,6 +7,7 @@ import com.gatchaPedia.demo.movie.response.MainPageResponse;
 import com.gatchaPedia.demo.movie.response.MovieRerollResponse;
 import com.gatchaPedia.demo.movie.response.Top100MovieResponse;
 import com.gatchaPedia.demo.movie.service.MovieService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,9 +32,9 @@ public class MovieController {
 
 
     @GetMapping("mainpage")
-    public MainPageResponse mainPage(){
+    public MainPageResponse mainPage(HttpServletRequest request){
 
-        return movieService.getMoviesForMainPage();
+        return movieService.getMoviesForMainPage(request);
     }
 
 
