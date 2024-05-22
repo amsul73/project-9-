@@ -11,11 +11,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class MainPageResponse {
+public class RecommendAPIResponse {
 
-    private Boolean success;
-
-    private String gatchaPhotoUrl;
-
-    private List<RecommendMovieInfo> recommendList;
+    private List<RecommendMovieInfo> movies;
 }

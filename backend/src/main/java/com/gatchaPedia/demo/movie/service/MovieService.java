@@ -2,12 +2,13 @@ package com.gatchaPedia.demo.movie.service;
 
 import com.gatchaPedia.demo.movie.request.AllMovieGetRequest;
 import com.gatchaPedia.demo.movie.response.*;
+import jakarta.servlet.http.HttpServletRequest;
 
 public interface MovieService {
 
     Top100MovieResponse getTop100MovieListByRating();
 
-    MainPageResponse getMoviesForMainPage();
+    MainPageResponse getMoviesForMainPage(HttpServletRequest request);
 
     MovieRerollResponse movieReroll();
 
