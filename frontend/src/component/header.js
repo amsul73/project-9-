@@ -2,20 +2,31 @@ import React, { useState } from 'react';
 import '../public/css/header.css';
 import Poster from '../public/img/poster.jpg';
 import cookie from 'react-cookies';
+import axios from 'axios';
 
 function logout() {
-    cookie.remove('JSESSIONID')
-    cookie.remove('memberId')
+    axios.post("/api/logout").then(res => {
+        if(res.data['success'] === true) {
+            alert(res.data['message'])
+            cookie.remove('JSESSIONID')
+        }
+        else {
+            console.log("데이터 어디감")
+        }
+    })
 }
 
 function Header(props) {
 
     let loginStatus = null
     const user = cookie.load('JSESSIONID')
-    if(user !== undefined) {
+    //const loginData = 1
+    //console.log(loginData)
+
+    if(user !== null) {
         try {
-            if(atob(user.split('.')[0]) === cookie.load('memberId')) { //유효 세션 존재할 때
-                loginStatus = [<span>환영합니다! {atob(user.split('.')[1])}님</span>, <a href="/mypage">마이페이지</a>, <a href="/" onClick={() => logout()}>로그아웃</a>]
+            if(1 === 1) { //유효 세션 존재할 때
+                loginStatus = [<span>환영합니다! {111}님</span>, <a href="/mypage">마이페이지</a>, <a href="/" onClick={() => logout()}>로그아웃</a>]
             }
         } catch (err) {
             alert("잘못된 접근입니다.")

@@ -11,7 +11,6 @@ function Information(props) {
             <div className='information-movie'>
                 <div className='movie-poster'>
                     <img src={Poster}/>
-                    <p>감독 : 5un9hun</p>
                 </div>
                 <div className='movie-header'>
                     <div className='movie-title'>
