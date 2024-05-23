@@ -1,9 +1,12 @@
 package com.gatchaPedia.demo.movie.entity;
 
+import com.gatchaPedia.demo.genre.entity.Genre;
+import com.gatchaPedia.demo.tag.entity.Tag;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Entity
 @Getter
@@ -27,4 +30,12 @@ public class Movie {
 
     private BigDecimal rating;
 
+    private Long tmdbId;
+
+//
+    @OneToMany(mappedBy = "movie")
+    private List<Genre> genres;
+
+    @OneToMany (mappedBy = "movie")
+    private List<Tag> tags;
 }
