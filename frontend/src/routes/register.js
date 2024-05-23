@@ -4,7 +4,7 @@ import '../public/css/main.css'
 import axios from 'axios';
 
 const Register = () => {
-
+    
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [pass_confirm, setPassConfirm] = useState('');
@@ -12,7 +12,6 @@ const Register = () => {
     const [email, setEmail] = useState('');
     const register = async (e) => {
         e.preventDefault();
-
         if(password !== pass_confirm) {
             alert("비밀번호가 동일하지 않습니다.")
         }
@@ -24,7 +23,7 @@ const Register = () => {
                     name:name,
                     email:email,
                 })
-                //console.log(res.data)
+                console.log(res.data)
                 alert(res.data['message'])
                 if(res.data['success'] === true) {
                     window.location.href="/"

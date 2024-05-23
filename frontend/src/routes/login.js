@@ -24,6 +24,7 @@ const Login = () => {
             })
             alert(res.data['message'])
             if(res.data['success'] === true) {
+                Header.loginData = res.data
                 window.location.href="/"
             }
         } catch(err) {

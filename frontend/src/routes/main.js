@@ -2,11 +2,23 @@ import React, { useState } from 'react';
 import Header from '../component/header';
 import '../public/css/main.css'
 import Poster from '../public/img/poster.jpg';
+import axios from 'axios';
 
 function Main(props) {
 
+    var movie_json = []
+
     const Gacha = () => {
-        // server get
+        axios.get("/api/reroll").then(res => {
+            console.log(res.data)
+            if(res.data['success'] === true) {
+                movie_json = res.data['movieList']
+                console.log(movie_json)
+            }
+            else {
+                console.log("데이터 어디감")
+            }
+        })
     }
 
     const imgSrcList = [
