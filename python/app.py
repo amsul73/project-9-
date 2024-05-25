@@ -5,7 +5,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 
 app = Flask(__name__)
 
-data = pd.read_csv("data/scrapping.csv", low_memory=False)
+data = pd.read_csv("src/data/scrapping.csv", low_memory=False)
 data["Overview"] = data["Overview"].fillna("")
 tfidf = TfidfVectorizer(stop_words="english")
 tfidf_matrix = tfidf.fit_transform(data["Overview"])
@@ -30,7 +30,7 @@ def recommend():
         .to_dict("records")
     )
 
-    # recommended_movie_ids에서 필요한거 뽑아다 쓰면 됨
+    # recommended_movie_ids에서 필요한 것들을 뽑아서 새로운 형식으로 응답 생성
     result = [
         {
             "movieId": movie["Movie ID"],
@@ -38,7 +38,12 @@ def recommend():
         }
         for movie in recommended_movie_ids
     ]
-    return jsonify(result)
+
+    # 응답을 새로운 형식으로 래핑
+    response = {"movies": result}
+
+    # 새로운 형식으로 응답
+    return jsonify(response)
 
 
 if __name__ == "__main__":

@@ -1,6 +1,7 @@
 package com.gatchaPedia.demo.interceptor;
 
 import com.gatchaPedia.demo.member.exception.MemberAuthException;
+import com.gatchaPedia.demo.member.response.MemberAuthFailResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -22,13 +23,25 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
 
     // 로그인을 했는지 안했는지만 체크할거라서 preHandle에서 체크 후
     // 세션을 가지고 있지 않으면 index로 다시 보내버림
+    // 뭔가 이상한 로직인데 일단 세션id 가없는 경우와 잘못된 세션이 들어온 경우 다 잡아냄
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         HttpSession session = request.getSession(false);
-        String sessionId = session.getId();  // JSessionId = nabgabgewbiwbwb 이런거 올거임
+        System.out.println(session);
+        
+        if(session!=null) {
+            String sessionId = session.getId();  // JSessionId = nabgabgewbiwbwb 이런거 올거임
+            System.out.println(sessionId);
+            System.out.println(session.getAttribute(sessionId));
+            System.out.println("로그인 시도 오류");
+            if(session.getAttribute(sessionId) == null) throw new MemberAuthException(); // 잘못된 세션 id 넣을경우
+        }
 
+
+        System.out.println("로그인 필요");
         // 세션 키자체가 없는 경우와 , 유효하지 않은 키를 넣은 경우
-        if (session == null || session.getAttribute(sessionId) == null) {      // session.get 하면 Member가 나와야함 없으면 에러
+        if (session == null) {      // session.get 하면 Member가 나와야함 없으면 에러
+            System.out.println("로그인 필요");
             throw new MemberAuthException();
         }
 
