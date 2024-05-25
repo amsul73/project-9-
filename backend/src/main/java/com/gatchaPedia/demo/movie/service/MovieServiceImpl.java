@@ -1,6 +1,7 @@
 package com.gatchaPedia.demo.movie.service;
 
 import com.gatchaPedia.demo.bookmark.entity.Bookmark;
+import com.gatchaPedia.demo.bookmark.repository.BookmarkRepository;
 import com.gatchaPedia.demo.member.entity.Member;
 import com.gatchaPedia.demo.member.exception.MemberAuthException;
 import com.gatchaPedia.demo.movie.entity.Movie;
@@ -29,6 +30,8 @@ public class MovieServiceImpl implements MovieService{
     private final WebClient.Builder webClientBuilder;
 
     private final MovieRepository movieRepository;
+
+    private final BookmarkRepository bookmarkRepository;
 
 
     @Override
@@ -60,7 +63,8 @@ public class MovieServiceImpl implements MovieService{
         // 전체 영화중에 50개 가져와서 랜덤으로 그중 하나 보여줌
         Random random = new Random();
 
-        List<Movie> randomMovieList = (List<Movie>) movieRepository.findAll(PageRequest.of(random.nextInt(190),50,Sort.by("id")));
+        Page<Movie> movies = movieRepository.findAll(PageRequest.of(random.nextInt(190),50,Sort.by("id")));
+        List<Movie> randomMovieList = movies.getContent();
         Movie randomMovie = randomMovieList.get(random.nextInt(randomMovieList.size()));
 
 
@@ -75,26 +79,31 @@ public class MovieServiceImpl implements MovieService{
         // 현재 로그인 한 멤버의 북마크 리스트에서 movie의 아이디들만 반환해야함
 
         HttpSession session = request.getSession(false);
-        String sessionId = session.getId();
+        String sessionId = null;
+        if(session!=null){
+            sessionId = session.getId();
+        }
 
-
-        if (session == null || session.getAttribute(sessionId) == null) {      // session.get 하면 Member가 나와야함 없으면 에러
+        if (session == null) {      // session.get 하면 Member가 나와야함 없으면 에러
             return new MainPageResponse(true,randomMovie.getMoviePhotoURL(),null);
         }
 
         Member currentMember = (Member) session.getAttribute(sessionId);
 
-        List<Bookmark> bookmarks = currentMember.getBookmarks() ;
+        List<Bookmark> bookmarks = bookmarkRepository.findAllByMemberId(currentMember.getId());
+
+
         List<Long> movieIds = new ArrayList<>();
 
         for (Bookmark bookmark : bookmarks){
             movieIds.add(bookmark.getMovie().getId());
         }
 
-
+        System.out.println(movieIds);
         // 요청 데이터 생성
         Map<String, Object> requestData = new HashMap<>();
         requestData.put("movie_ids", movieIds);
+        System.out.println(requestData);
 
         // WebClient 사용하여 비동기 요청 전송, 무슨 코드인지는 잘 모르겠음
         WebClient webClient = webClientBuilder.build();
@@ -116,9 +125,9 @@ public class MovieServiceImpl implements MovieService{
 
         Random random = new Random();
 
-        List<Movie> randomMovieList = (List<Movie>) movieRepository.findAll(PageRequest.of(random.nextInt(190),50,Sort.by("id")));
+        Page<Movie> movies = movieRepository.findAll(PageRequest.of(random.nextInt(190),50,Sort.by("id")));
+        List<Movie> randomMovieList = movies.getContent();
         Movie randomMovie = randomMovieList.get(random.nextInt(randomMovieList.size()));
-
         return new MovieRerollResponse(true, randomMovie.getId(), randomMovie.getMoviePhotoURL(), "리롤 성공");
     }
 
