@@ -23,16 +23,16 @@ public class Movie {
     private String title;
 
     @Lob
+    @Column(columnDefinition = "LONGTEXT")
     private String overView;
 
     @Lob
+    @Column(columnDefinition = "LONGTEXT")
     private String moviePhotoURL;
 
     private BigDecimal rating;
 
-    private Long tmdbId;
 
-//
     @OneToMany(mappedBy = "movie")
     private List<Genre> genres;
 
