@@ -1,37 +1,83 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from '../component/header';
 import '../public/css/main.css'
-import Poster from '../public/img/poster.jpg';
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
 
 function Information(props) {
+
+    const { movieId } = useParams();
+
+    const baseurl = "https://image.tmdb.org/t/p/w500"
+    
+    const [movieimg, setMovieImg] = useState(null);
+    const [title, setTitle] = useState(null);
+    const [overview, setOverview] = useState(null);
+    const [rating, setRating] = useState(null);
+    const [genres, setGenres] = useState({name:null});
+
+    useEffect(() => {
+        axios.get(`/api/movie/${movieId}`).then(res => {
+            if(res.data['success'] === true) {
+                setMovieImg(baseurl + res.data['moviePhotoUrl'])
+                setTitle(res.data['title'])
+                setOverview(res.data['overView'])
+                setRating(res.data['rating'])
+                //setGenres([...genres, {name:res.data['genres']}]) 
+            }
+            else {
+                console.log("데이터를 받아오는데 실패했습니다.")
+            }
+        })
+    }, [])
+
+    const renderStars = () => {
+        const stars = [];
+        for (let i = 1; i <= 5; i++) {
+            if (i <= Math.floor(rating)) {
+                stars.push(<span key={i}>&#9733;</span>);
+            } 
+            else if (i === Math.ceil(rating) && rating % 1 !== 0) {
+                stars.push(<span key={i}>&#9731;</span>);
+            } 
+            else {
+                stars.push(<span key={i}>&#9734;</span>);
+            }
+        }
+        return stars;
+      };
+
+    const BookMark = () => {
+        console.log(1)
+    }
+
     return (
         <div className='App'>
             <Header />
             <div className="logo">GachaPEDIA</div>
             <div className='information-movie'>
                 <div className='movie-poster'>
-                    <img src={Poster}/>
+                    <img src={movieimg}/>
+                    <div className='movie-genre'>
+                        
+                    </div>
                 </div>
                 <div className='movie-header'>
-                    <div className='movie-title'>
-                        <div>영화 제목</div>
-                        <button>북마크</button>
+                    <div className='movie-head'>
+                        <div className='movie-title'>{title}</div>
+                        <button onClick={() => BookMark()}>북마크</button>
                     </div>
                     <div className='movie-description'>
                         <div className='movie-summary'>
-                            <p>줄거리줄거리줄거리줄거리줄거리줄거리줄거리줄거리줄거리줄거리</p>
-                            <p>줄거리줄거리줄거리줄거리줄거리줄거리줄거리줄거리줄거리줄거리</p>
-                            <p>줄거리줄거리줄거리줄거리줄거리줄거리줄거리줄거리줄거리줄거리</p>
-                            <p>줄거리줄거리줄거리줄거리줄거리줄거리줄거리줄거리줄거리줄거리</p>                            
+                            <p>개요</p>
+                            <hr />
+                            <p>{overview}</p>
                         </div>
                         <div className='rating'>
                             <p>평점</p>
                             <div className="star-rating">
-                                <input type="radio" className="star" value="1" />
-                                <input type="radio" className="star" value="2" />
-                                <input type="radio" className="star" value="3" />
-                                <input type="radio" className="star" value="4" />
-                                <input type="radio" className="star" value="5" />
+                                <p>{rating}</p>
+                                <p>{renderStars()}</p>
                             </div>
                         </div>
                     </div>
