@@ -198,6 +198,12 @@ ratings_df.columns = ['member_id', 'movie_id', 'rating']
 # rating_id 추가
 ratings_df['rating_id'] = range(1, len(ratings_df) + 1)
 
+# 데이터베이스에 존재하는 영화 ID 목록 가져오기
+existing_movie_ids = pd.read_sql("SELECT DISTINCT movie_id FROM movie", engine)['movie_id']
+
+# 데이터베이스에 영화 ID가 존재하지 않는 레코드 필터링
+ratings_df = ratings_df[ratings_df['movie_id'].isin(existing_movie_ids)]
+
 # 데이터베이스에 삽입
 ratings_df.to_sql(
     name='rating',  # 테이블 이름을 "rating"로 설정

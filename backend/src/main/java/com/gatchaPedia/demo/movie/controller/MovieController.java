@@ -2,10 +2,8 @@ package com.gatchaPedia.demo.movie.controller;
 
 
 import com.gatchaPedia.demo.movie.request.AllMovieGetRequest;
-import com.gatchaPedia.demo.movie.response.AllMovieGetResponse;
-import com.gatchaPedia.demo.movie.response.MainPageResponse;
-import com.gatchaPedia.demo.movie.response.MovieRerollResponse;
-import com.gatchaPedia.demo.movie.response.Top100MovieResponse;
+import com.gatchaPedia.demo.movie.request.MovieInfoRequest;
+import com.gatchaPedia.demo.movie.response.*;
 import com.gatchaPedia.demo.movie.service.MovieService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -51,6 +49,15 @@ public class MovieController {
 
 
         return movieService.getAllMovies(request);
+    }
+
+
+    @GetMapping("/movie/{movieId}")
+    public MovieInfoResponse movieInfo(@PathVariable("movieId") Long movieId){
+
+        MovieInfoRequest request = new MovieInfoRequest(movieId);
+
+        return movieService.getMovieInfo(request);
     }
 
 }

@@ -23,7 +23,8 @@ public class WebConfig implements WebMvcConfigurer {
                         "/signup",
                         "/movies/top100",
                         "/reroll",
-                        "/movies/**"
+                        "/movies/**",
+                        "/movie/**"
                         );
     }
 

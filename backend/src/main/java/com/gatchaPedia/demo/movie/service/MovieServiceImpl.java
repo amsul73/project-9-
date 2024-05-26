@@ -2,12 +2,21 @@ package com.gatchaPedia.demo.movie.service;
 
 import com.gatchaPedia.demo.bookmark.entity.Bookmark;
 import com.gatchaPedia.demo.bookmark.repository.BookmarkRepository;
+import com.gatchaPedia.demo.genre.entity.Genre;
+import com.gatchaPedia.demo.genre.repository.GenreRepository;
+import com.gatchaPedia.demo.genre.response.GenreResponse;
 import com.gatchaPedia.demo.member.entity.Member;
 import com.gatchaPedia.demo.member.exception.MemberAuthException;
 import com.gatchaPedia.demo.movie.entity.Movie;
 import com.gatchaPedia.demo.movie.repository.MovieRepository;
 import com.gatchaPedia.demo.movie.request.AllMovieGetRequest;
+import com.gatchaPedia.demo.movie.request.MovieInfoRequest;
 import com.gatchaPedia.demo.movie.response.*;
+import com.gatchaPedia.demo.rating.entity.Rating;
+import com.gatchaPedia.demo.rating.repository.RatingRepository;
+import com.gatchaPedia.demo.tag.entity.Tag;
+import com.gatchaPedia.demo.tag.repository.TagRespository;
+import com.gatchaPedia.demo.tag.response.TagResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +27,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.*;
 
 @Service
@@ -25,13 +36,20 @@ import java.util.*;
 @RequiredArgsConstructor
 public class MovieServiceImpl implements MovieService{
 
-    private final static int PAGING_SIZE = 15;
+    private final static int PAGING_SIZE = 24;
 
     private final WebClient.Builder webClientBuilder;
 
     private final MovieRepository movieRepository;
 
     private final BookmarkRepository bookmarkRepository;
+
+    private final TagRespository tagRespository;
+
+    private final GenreRepository genreRepository;
+
+    private final RatingRepository ratingRepository;
+
 
 
     @Override
@@ -95,6 +113,8 @@ public class MovieServiceImpl implements MovieService{
 
         List<Long> movieIds = new ArrayList<>();
 
+        if (bookmarks == null) return new MainPageResponse(true,randomMovie.getMoviePhotoURL(),null);
+
         for (Bookmark bookmark : bookmarks){
             movieIds.add(bookmark.getMovie().getId());
         }
@@ -140,7 +160,7 @@ public class MovieServiceImpl implements MovieService{
 
         for(Movie movie : movies){
 
-            MovieResponseForAllMovie response = new MovieResponseForAllMovie(movie.getId(), movie.getMoviePhotoURL());
+            MovieResponseForAllMovie response = new MovieResponseForAllMovie(movie.getId(),movie.getTitle(), movie.getMoviePhotoURL());
             movieList.add(response);
         }
 
@@ -153,6 +173,68 @@ public class MovieServiceImpl implements MovieService{
                 movies.isFirst(),
                 movies.isLast(),
                 "전체 영화리스트 반환성공"
+        );
+    }
+
+    @Override
+    public MovieInfoResponse getMovieInfo(MovieInfoRequest request) {
+
+        List<Rating> ratingList = ratingRepository.findAllByMovieId(request.getMovieId());
+
+
+        BigDecimal sum = BigDecimal.ZERO;
+        BigDecimal avg = BigDecimal.ZERO;
+
+        if (!ratingList.isEmpty()) {
+            for (Rating rating : ratingList) {
+               sum =  sum.add(rating.getRating());
+            }
+            avg = sum.divide(BigDecimal.valueOf(ratingList.size()), 2, RoundingMode.HALF_UP);
+        }
+
+
+        List<Tag> tagList = tagRespository.findAllByMovieId(request.getMovieId());
+        Map<String, Integer> tagCountMap = new HashMap<>();
+
+        // 태그 빈도 계산
+        for (Tag tag : tagList) {
+            String tagName = tag.getName();
+            tagCountMap.put(tagName, tagCountMap.getOrDefault(tagName, 0) + 1);
+        }
+
+        List<TagResponse> tags = new ArrayList<>();
+
+        // 빈도가 2개 이상인 태그는 한 번만 추가
+        for (Tag tag : tagList) {
+            String tagName = tag.getName();
+            if (tagCountMap.get(tagName) < 2 || tags.stream().noneMatch(t -> t.getName().equals(tagName))) {
+                TagResponse tagResponse = new TagResponse(tagName);
+                tags.add(tagResponse);
+            }
+        }
+
+        List<Genre> genreList = genreRepository.findAllByMovieId(request.getMovieId());
+        List<GenreResponse> genres = new ArrayList<>();
+        for(Genre genre : genreList){
+            GenreResponse genreResponse = new GenreResponse(genre.getName());
+            genres.add(genreResponse);
+        }
+
+
+
+
+        Movie movie = movieRepository.findById(request.getMovieId()).get();
+
+        return new MovieInfoResponse(
+                true,
+                movie.getId(), 
+                movie.getTitle(),
+                movie.getOverView(),
+                movie.getMoviePhotoURL(),
+                avg,
+                genres,
+                tags,
+                "영화상세 페이지 반환 성공"
         );
     }
 
