@@ -1,4 +1,4 @@
-package com.gatchaPedia.demo.movie.response;
+package com.gatchaPedia.demo.movie.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,11 +9,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class MovieResponseForAllMovie {
+public class MovieInfoRequest {
 
     private Long movieId;
-
-    private String title;
-
-    private String moviePhotoUrl;
 }
