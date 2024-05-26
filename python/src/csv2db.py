@@ -139,87 +139,73 @@
 
 
 
+# 1~700 까지 멤버 넣기
+# import pandas as pd
+# from sqlalchemy import create_engine
+#
+# # DB 정보 개인 환경에 맞춰서 넣어주세요
+# username = "root"
+# password = "worldcup7"
+# host = "localhost"
+# database = "movie"
+#
+# # 데이터베이스 엔진 생성
+# engine = create_engine(f"mysql+mysqlconnector://{username}:{password}@{host}/{database}")
+#
+# # 데이터프레임 생성
+# data = {
+#     'member_id': range(1, 701),
+#     'email': [f"test{i}@test.com" for i in range(1, 701)],
+#     'name': [f"이름{i}" for i in range(1, 701)],
+#     'password': ['Test123456!'] * 700,
+#     'username': [f"testdata{i}" for i in range(1, 701)]
+# }
+# df = pd.DataFrame(data)
+#
+# # 데이터프레임을 기존 테이블에 삽입
+# df.to_sql(
+#     name='member',  # 테이블 이름을 "DB_member"로 설정
+#     con=engine,
+#     index=False,
+#     if_exists='append'  # 존재하는 테이블에 추가하기
+# )
+#
+# print("Data has been appended to the 'DB_member' table in the database.")
 
 
 
 import pandas as pd
 from sqlalchemy import create_engine
 
+# DB 정보 개인 환경에 맞춰서 넣어주세요
+username = "root"
+password = "worldcup7"
+host = "localhost"
+database = "movie"
 
-# # 오류남 rating
-# import pandas as pd
-# from sqlalchemy import create_engine
-#
-# # DB 정보 개인 환경에 맞춰서 수정해주세요
-# username = "root"
-# password = "worldcup7"
-# host = "localhost"
-# database = "movie"
-#
-# # 데이터베이스 엔진 생성
-# engine = create_engine(f"mysql+mysqlconnector://{username}:{password}@{host}/{database}")
-#
-# # 파일 이름 잘 확인해주세요.. 이름 다른거 있으면 바꿔야 해요
-# filename = "ratings"
-# csv_file_path = f"data/{filename}.csv"
-#
-# # 데이터셋 로드
-# df = pd.read_csv(csv_file_path)
-#
-# # 기존 member 테이블에 있는 member_id의 최대값 찾기
-# max_member_id_query = pd.read_sql("SELECT MAX(member_id) FROM member", con=engine)
-# if max_member_id_query.iloc[0, 0] is not None:
-#     max_member_id = max_member_id_query.iloc[0, 0]
-# else:
-#     max_member_id = 0
-#
-# # 멤버 아이디 부여
-# df['member_id'] = range(max_member_id + 1, max_member_id + 1 + len(df))
-#
-# # rating 테이블에 데이터 삽입
-# df[['member_id', 'movie_id', 'rating']].to_sql(
-#     name="rating",  # 테이블 이름 설정
-#     con=engine,
-#     index=False,
-#     if_exists="append"  # 존재하는 테이블에 추가하기
-# )
-#
-# print(f"Data from '{csv_file_path}' has been inserted into the 'rating' table in the database.")
+# 데이터베이스 엔진 생성
+engine = create_engine(f"mysql+mysqlconnector://{username}:{password}@{host}/{database}")
 
-# import pandas as pd
-# from sqlalchemy import create_engine
-#
-# # DB 정보를 개인 환경에 맞게 수정하세요
-# username = "root"
-# password = "worldcup7"
-# host = "localhost"
-# database = "movie"
-#
-# # 데이터베이스 엔진 생성
-# engine = create_engine(f"mysql+mysqlconnector://{username}:{password}@{host}/{database}")
-#
-# # 파일 이름 확인 및 수정
-# filename = "ratings"
-# csv_file_path = f"data/{filename}.csv"
-#
-# # CSV 파일 불러오기
-# df = pd.read_csv(csv_file_path)
-#
-# # rating_id 열을 추가하여 1부터 1씩 증가하는 값으로 설정
-# df["rating_id"] = range(1, len(df) + 1)
-#
-# # timestamp 열 제외
-# df = df.drop(columns=["timestamp"])
-#
-# # userId를 member_id로 변경
-# df = df.rename(columns={"userId": "member_id"})
-#
-# # rating 테이블에 데이터 삽입
-# df.to_sql(
-#     name="rating",  # 테이블 이름 설정
-#     con=engine,
-#     index=False,
-#     if_exists="append"  # 존재하는 테이블에 추가하기
-# )
-#
-# print(f"Data from '{csv_file_path}' has been inserted into the 'rating' table in the database.")
+# ratings.csv 파일 읽기
+ratings_df = pd.read_csv("data/ratings.csv")
+
+# 필요한 열만 선택
+ratings_df = ratings_df[['userId', 'movieId', 'rating']]
+
+# 열 이름 변경
+ratings_df.columns = ['member_id', 'movie_id', 'rating']
+
+# rating_id 추가
+ratings_df['rating_id'] = range(1, len(ratings_df) + 1)
+
+# 데이터베이스에 삽입
+ratings_df.to_sql(
+    name='rating',  # 테이블 이름을 "rating"로 설정
+    con=engine,
+    index=False,
+    if_exists='append',  # 존재하는 테이블에 추가하기
+    chunksize=1000,  # 한 번에 삽입하는 데이터 양 설정
+    method='multi',  # 데이터베이스에 데이터를 삽입하는 방법 설정
+)
+
+print("Data from 'ratings.csv' has been appended to the 'rating' table in the database.")
