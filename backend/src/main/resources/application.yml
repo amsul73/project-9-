@@ -19,3 +19,7 @@ logging.level:
   org.hibernate.SQL: debug
 server:
   port: 5000
+
+
+# MySQL FULLTEXT 인덱스로 검색하기 기능을 사용하기 위해서 DB에 직접 추가해야함
+#  ALTER TABLE movie ADD FULLTEXT(title);
