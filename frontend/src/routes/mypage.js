@@ -1,9 +1,42 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from '../component/header';
 import '../public/css/main.css'
+import axios from 'axios';
 
 function MyPage(props) {
 
+    const [bookmarks, setBookmarks] = useState([]);
+
+    useEffect(() => {
+        const checkSession = async () => {
+            try {
+                axios.get("/api/session").then(res => {
+                    if(res.data['errcode'] == 1000) {
+                        alert(res.data['message'])
+                        window.document.location.href = "/login"
+                    }
+                })
+            } catch(err) {
+                window.document.location.href = "/login"
+            }
+        }
+
+        checkSession();
+        bookmarkList();
+
+    }, []);
+
+    const bookmarkList = () => {
+        axios.get("/api/bookmarks").then(res => {
+            if(res.data['success'] === true) {
+                setBookmarks(res.data['bookmarkList'])
+            }
+            else {
+                console.log("데이터를 받아오는데 실패했습니다.")
+            }
+        })
+    }
+    
     const [activeTab, setActiveTab] = useState('tab1');
     const [checked, setChecked] = useState(false);
     const [password, setPassword] = useState('');
@@ -17,10 +50,15 @@ function MyPage(props) {
             alert("비밀번호를 입력해주세요.");
         }
         else {
-            //비밀번호 체크 후, 맞으면 데이터 삭제 
-            //아니면 비밀번호 오류
+            axios.post("/api/signout").then(res => {
+                if(res.data['success'] === true) {
+                    alert(res.data['message'])
+                }
+                else {
+                    console.log("데이터를 받아오는데 실패했습니다.")
+                }
+            })
         }
-
     }
 
     return (
@@ -30,40 +68,22 @@ function MyPage(props) {
             <div className='mypage'>
                 <div className='mypage-menu'>
                     <p>메뉴</p>
-                    <a href="#" onClick={() => setActiveTab('tab1')}>회원정보 수정</a>
-                    <a href="#" onClick={() => setActiveTab('tab2')}>북마크 관리</a>
-                    <a href="#" onClick={() => setActiveTab('tab3')}>그 외</a>
-                    <a href="#" onClick={() => setActiveTab('tab4')}>회원탈퇴</a>
+                    <a href="#" onClick={() => setActiveTab('tab1')}>북마크 관리</a>
+                    <a href="#" onClick={() => setActiveTab('tab2')}>회원탈퇴</a>
                 </div>
                 <div className='mypage-main'>
                     {activeTab === 'tab1' && (
                         <>
-                        <p>회원정보 수정</p>
+                        <p>북마크 관리</p>
                         <hr />
-                        <form action="/" method="post" id="menu-form" >
-                            <input type="submit" value="수정" />
-                        </form>
+                        {bookmarks.map((bookmark, index) => (
+                            <div className='mypage-bookmark' key={index}>
+                                <a href={`/information/${bookmark.movieId}`}>{bookmark.title}</a>
+                            </div>
+                        ))}
                         </>
                     )}
                     {activeTab === 'tab2' && (
-                        <>
-                        <p>북마크 관리</p>
-                        <hr />
-                        <form action="/" method="post" id="menu-form" >
-                            <input type="submit" value="수정" />
-                        </form>
-                        </>
-                    )}
-                    {activeTab === 'tab3' && (
-                        <>
-                        <p>그 외</p>
-                        <hr />
-                        <form action="/" method="post" id="menu-form" >
-                            <input type="submit" value="수정" />
-                        </form>
-                        </>
-                    )}
-                    {activeTab === 'tab4' && (
                         <>
                         <p>회원탈퇴</p>
                         <hr />

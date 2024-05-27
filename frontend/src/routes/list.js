@@ -3,8 +3,11 @@ import Header from '../component/header';
 import '../public/css/main.css'
 import axios from 'axios';
 import Pagination from "react-js-pagination";
+import { useParams } from 'react-router-dom';
 
 function List(props) {
+
+    const { search } = useParams();
 
     const baseurl = "https://image.tmdb.org/t/p/w500"
 
@@ -20,13 +23,40 @@ function List(props) {
         setPage(page);
     };
     
+
     useEffect(() => {
-        fetchMovies(page)
+        if(search === 'all') {
+            fetchMovies(page)
+        }
+        else{ 
+            searchMovies(page)
+        }
     }, [page])
 
     const fetchMovies = (page) => {
         axios.get(`/api/movies/${page - 1}`).then(res => {
             if(res.data['success'] === true) {
+                var list = res.data['movieList']
+                const urls = list.map(d => d['moviePhotoUrl'])
+                const titles = list.map(d => d['title'])
+                const id = list.map(d => d['movieId'])
+                setMovieId(id)
+                setMovieList(urls)
+                setTitleList(titles)
+                setTotalPages(res.data['totalPage'])
+            }
+            else {
+                console.log("데이터를 받아오는데 실패했습니다.")
+            }
+        }).catch(err => {
+            console.error(err)
+        })
+    }
+
+    const searchMovies = (page) => {
+        axios.post(`/api/movies/search/${page - 1}`, {keyword:search}).then(res => {
+            if(res.data['success'] === true) {
+                console.log(res.data)
                 var list = res.data['movieList']
                 const urls = list.map(d => d['moviePhotoUrl'])
                 const titles = list.map(d => d['title'])

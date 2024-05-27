@@ -105,6 +105,10 @@ hr {
     width:30%;
 }
 
+#g_img {
+    width: 300px;
+}
+
 #reroll {
     margin-top: 30px;
 }
@@ -120,6 +124,10 @@ hr {
 
 #reroll > button:hover {
     background-color: #ff4343;
+}
+
+.recommend-div.active {
+    display: none;
 }
 
 h5 {
@@ -215,6 +223,15 @@ h5 {
     font-size: 20px;
 }
 
+.mypage-bookmark {
+    margin:5px;
+    font-size: 20px;
+}
+
+.mypage-bookmark > a {
+    color: #FFFFFF;
+}
+
 #menu-form > input {
     width: 50%;
     height: 48px;
@@ -302,6 +319,10 @@ input[type="password"]::placeholder {
     color: #FFFFFF;
     border-radius: 10px;
     cursor: pointer;
+}
+
+.movie-head > button.active {
+    background-color: #ff0000;
 }
 
 .movie-description {

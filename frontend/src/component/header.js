@@ -11,7 +11,7 @@ function logout() {
             cookie.remove('JSESSIONID')
         }
         else {
-            console.log("데이터 어디감")
+            console.log("데이터를 받아오는데 실패했습니다.")
         }
     })
 }
@@ -20,19 +20,26 @@ function Header(props) {
 
     let loginStatus = null
     const user = cookie.load('JSESSIONID')
-    //const loginData = 1
-    //console.log(loginData)
 
-    if(user === null) {
-        try {
-            if(1 === 1) { //유효 세션 존재할 때
-                loginStatus = [<span>환영합니다! {111}님</span>, <a href="/mypage">마이페이지</a>, <a href="/" onClick={() => logout()}>로그아웃</a>]
+    const [name, setName] = useState(null)
+
+    try {
+        axios.get("/api/session").then(res => {
+            if(res.data['success'] === true) {
+                setName(res.data['memberName'])
             }
-        } catch (err) {
-            alert("잘못된 접근입니다.")
-        }
+            else {
+                console.log("데이터를 받아오는데 실패했습니다.")
+            }
+        })
+    } catch(err) {
+        console.log("계정 정보 에러")
     }
-    else { //유효 세션 없을 때
+
+    if(name !== null) {
+        loginStatus = [<span>환영합니다! {name}님</span>, <a href="/mypage">마이페이지</a>, <a href="/" onClick={() => logout()}>로그아웃</a>]
+    }
+    else { 
         loginStatus = [<a href="/login">로그인</a>, <a href="/register">회원가입</a>]
     }
 
@@ -40,27 +47,22 @@ function Header(props) {
 
     const handleInputChange = (e) => {
         setInputText(e.target.value);
-
-        //데이터 받아오기
-        var movie_list = [
-            Poster, Poster, Poster, Poster, Poster, Poster,
-            Poster, Poster, Poster, Poster, Poster, Poster,
-            Poster, Poster, Poster, Poster, Poster, Poster,
-            Poster, Poster, Poster, Poster, Poster, Poster,
-            Poster, Poster, Poster, Poster, Poster, Poster
-        ]
-        
     }
+    
+    const handleSearch = (e) => {
+        if (e.keyCode === 13) {
+            window.document.location.href = `/list/${inputText}`
+        }
+      };
 
     return (
         <header>
             <a href="/">GachaPEDIA</a>
             <nav className="list-kind">
-                <a href="/list?kind=m">영화</a>
-                <a href="/list?kind=t">TOP 100</a>
+                <a href="/list/all">전체 영화</a>
             </nav>
             <nav>
-                <input type="search" name="search" value={inputText} onChange={handleInputChange} placeholder="검색"/>
+                <input type="search" name="search" value={inputText} onChange={handleInputChange} onKeyDown={handleSearch} placeholder="검색"/>
             </nav>
             <nav>
                 {loginStatus[0]}
