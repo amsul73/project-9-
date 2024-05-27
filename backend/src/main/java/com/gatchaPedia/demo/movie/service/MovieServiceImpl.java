@@ -92,7 +92,7 @@ public class MovieServiceImpl implements MovieService{
         
         // 파이썬 api서버와 통신하기위해서 webflux의 webclient 라는걸 사용해서 비동기식 처리가 가능하다는데 뭔지는 잘 모르겠음
         // Python API 서버와 통신
-        String apiUrl = "http://localhost:5000/recommend";
+        String apiUrl = "http://localhost:7000/recommend";
 
         // 현재 로그인 한 멤버의 북마크 리스트에서 movie의 아이디들만 반환해야함
 
@@ -103,7 +103,7 @@ public class MovieServiceImpl implements MovieService{
         }
 
         if (session == null) {      // session.get 하면 Member가 나와야함 없으면 에러
-            return new MainPageResponse(true,randomMovie.getMoviePhotoURL(),null);
+            return new MainPageResponse(true,randomMovie.getMoviePhotoURL(),randomMovie.getId(), null);
         }
 
         Member currentMember = (Member) session.getAttribute(sessionId);
@@ -113,7 +113,7 @@ public class MovieServiceImpl implements MovieService{
 
         List<Long> movieIds = new ArrayList<>();
 
-        if (bookmarks == null) return new MainPageResponse(true,randomMovie.getMoviePhotoURL(),null);
+        if (bookmarks == null) return new MainPageResponse(true,randomMovie.getMoviePhotoURL(),randomMovie.getId(),null);
 
         for (Bookmark bookmark : bookmarks){
             movieIds.add(bookmark.getMovie().getId());
@@ -137,7 +137,7 @@ public class MovieServiceImpl implements MovieService{
 
         List<RecommendMovieInfo> recommendList = recommendationResponse.getMovies();
 
-        return new MainPageResponse(true,randomMovie.getMoviePhotoURL(), recommendList);
+        return new MainPageResponse(true,randomMovie.getMoviePhotoURL(), randomMovie.getId(),recommendList);
     }
 
     @Override   

@@ -27,5 +27,6 @@ public class Rating {
     @JoinColumn(name = "movie_id")
     private Movie movie;
 
+    @Column(nullable = false)
     private BigDecimal rating;
 }

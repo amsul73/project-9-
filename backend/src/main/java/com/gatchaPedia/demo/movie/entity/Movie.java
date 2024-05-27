@@ -20,6 +20,7 @@ public class Movie {
     @Column (name = "movie_id")
     private Long id;
 
+    @Column(nullable = false)
     private String title;
 
     @Lob
@@ -29,8 +30,6 @@ public class Movie {
     @Lob
     @Column(columnDefinition = "LONGTEXT")
     private String moviePhotoURL;
-
-    private BigDecimal rating;
 
 
     @OneToMany(mappedBy = "movie")

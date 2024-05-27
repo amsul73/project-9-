@@ -30,6 +30,8 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
         System.out.println(session);
         
         if(session!=null) {
+            // 여기까지 안들어오고 getSession에서 조작된 세션id 이면 잡아내는거 같음
+
             String sessionId = session.getId();  // JSessionId = nabgabgewbiwbwb 이런거 올거임
             System.out.println(sessionId);
             System.out.println(session.getAttribute(sessionId));
@@ -41,7 +43,7 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
         System.out.println("로그인 필요");
         // 세션 키자체가 없는 경우와 , 유효하지 않은 키를 넣은 경우
         if (session == null) {      // session.get 하면 Member가 나와야함 없으면 에러
-            System.out.println("로그인 필요");
+            System.out.println("로그인이 필요하거나 , 잘못된 세션 ID 입니다.");
             throw new MemberAuthException();
         }
 
