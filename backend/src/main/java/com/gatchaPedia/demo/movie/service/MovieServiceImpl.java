@@ -6,7 +6,6 @@ import com.gatchaPedia.demo.genre.entity.Genre;
 import com.gatchaPedia.demo.genre.repository.GenreRepository;
 import com.gatchaPedia.demo.genre.response.GenreResponse;
 import com.gatchaPedia.demo.member.entity.Member;
-import com.gatchaPedia.demo.member.exception.MemberAuthException;
 import com.gatchaPedia.demo.movie.entity.Movie;
 import com.gatchaPedia.demo.movie.repository.MovieRepository;
 import com.gatchaPedia.demo.movie.request.AllMovieGetRequest;
@@ -205,7 +204,7 @@ public class MovieServiceImpl implements MovieService{
     }
 
     @Override
-    public MovieInfoResponse getMovieInfo(MovieInfoRequest request) {
+    public MovieInfoResponse getMovieInfo(MovieInfoRequest request, HttpServletRequest httpServletRequest) {
 
         List<Rating> ratingList = ratingRepository.findAllByMovieId(request.getMovieId());
 
@@ -249,6 +248,15 @@ public class MovieServiceImpl implements MovieService{
         }
 
 
+        HttpSession session = httpServletRequest.getSession(false);
+        Boolean bookmarkChecked = false;
+
+        if(session!=null){
+            String sessionId = session.getId();
+            Member member = (Member) session.getAttribute(sessionId);
+
+            bookmarkChecked = bookmarkRepository.existsByMemberIdAndMovieId(member.getId(), request.getMovieId());
+        }
 
 
         Movie movie = movieRepository.findById(request.getMovieId()).get();
@@ -260,6 +268,7 @@ public class MovieServiceImpl implements MovieService{
                 movie.getOverView(),
                 movie.getMoviePhotoURL(),
                 avg,
+                bookmarkChecked,
                 genres,
                 tags,
                 "영화상세 페이지 반환 성공"

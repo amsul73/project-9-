@@ -14,14 +14,12 @@ public class WebConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry){
         registry.addInterceptor(new LoginCheckInterceptor())    // 인터셉터 등록
                 .order(1)   // 1순위
-                .addPathPatterns("/**") //localhost8080:/ 아래 모든 애들에게 적용
+                .addPathPatterns("/**")
                 .excludePathPatterns(
                         "/error",
+                        "/signup",
                         "/login",
                         "/mainpage",
-                        "/",
-                        "/signup",
-                        "/movies/top100",
                         "/reroll",
                         "/movies/**",
                         "/movie/**"

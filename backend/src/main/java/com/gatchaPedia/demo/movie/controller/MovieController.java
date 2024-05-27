@@ -51,11 +51,12 @@ public class MovieController {
 
 
     @GetMapping("/movie/{movieId}")
-    public MovieInfoResponse movieInfo(@PathVariable("movieId") Long movieId){
+    public MovieInfoResponse movieInfo(@PathVariable("movieId") Long movieId,
+                                       HttpServletRequest httpServletRequest){
 
         MovieInfoRequest request = new MovieInfoRequest(movieId);
 
-        return movieService.getMovieInfo(request);
+        return movieService.getMovieInfo(request,httpServletRequest);
     }
 
 

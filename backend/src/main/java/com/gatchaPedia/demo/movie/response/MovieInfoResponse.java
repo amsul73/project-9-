@@ -28,6 +28,8 @@ public class MovieInfoResponse {
 
     private BigDecimal rating;
 
+    private Boolean bookmarkChecked;
+
     private List<GenreResponse> genres;
 
     private List<TagResponse> tags;
