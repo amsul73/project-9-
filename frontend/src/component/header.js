@@ -23,7 +23,7 @@ function Header(props) {
     //const loginData = 1
     //console.log(loginData)
 
-    if(user !== null) {
+    if(user === null) {
         try {
             if(1 === 1) { //유효 세션 존재할 때
                 loginStatus = [<span>환영합니다! {111}님</span>, <a href="/mypage">마이페이지</a>, <a href="/" onClick={() => logout()}>로그아웃</a>]

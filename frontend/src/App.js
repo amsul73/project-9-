@@ -16,7 +16,7 @@ function App() {
           <Route path="/login" element={< Login/>} />
           <Route path="/register" element={< Register/>} />
           <Route path="/mypage" element={< MyPage/>} />
-          <Route path="/information" element={< Information/>} />
+          <Route path="/information/:movieId" element={< Information/>} />
           <Route path="/list" element={< List/>} />
         </Routes>
       </header>
