@@ -5,6 +5,7 @@ import com.gatchaPedia.demo.member.request.SignUpRequest;
 import com.gatchaPedia.demo.member.response.LoginResponse;
 import com.gatchaPedia.demo.member.response.LogoutResponse;
 import com.gatchaPedia.demo.member.response.SignUpResponse;
+import com.gatchaPedia.demo.member.response.SignoutResponse;
 import jakarta.servlet.http.HttpServletRequest;
 
 public interface MemberService {
@@ -14,4 +15,6 @@ public interface MemberService {
     LoginResponse login(LoginRequest loginRequest, HttpServletRequest request);
 
     LogoutResponse logout(HttpServletRequest request);
+
+    SignoutResponse signout(HttpServletRequest request);
 }

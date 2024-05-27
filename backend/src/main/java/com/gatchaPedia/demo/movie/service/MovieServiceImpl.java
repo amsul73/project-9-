@@ -11,6 +11,7 @@ import com.gatchaPedia.demo.movie.entity.Movie;
 import com.gatchaPedia.demo.movie.repository.MovieRepository;
 import com.gatchaPedia.demo.movie.request.AllMovieGetRequest;
 import com.gatchaPedia.demo.movie.request.MovieInfoRequest;
+import com.gatchaPedia.demo.movie.request.MovieSearchRequest;
 import com.gatchaPedia.demo.movie.response.*;
 import com.gatchaPedia.demo.rating.entity.Rating;
 import com.gatchaPedia.demo.rating.repository.RatingRepository;
@@ -154,7 +155,7 @@ public class MovieServiceImpl implements MovieService{
     @Override
     public AllMovieGetResponse getAllMovies(AllMovieGetRequest request) {
 
-        Page<Movie> movies = movieRepository.findAll(PageRequest.of(request.getCurrentPage(),PAGING_SIZE,Sort.by("Id").ascending()));
+        Page<Movie> movies = movieRepository.findAll(PageRequest.of(request.getCurrentPage(),PAGING_SIZE,Sort.by("movie_id").ascending()));
 
         List <MovieResponseForAllMovie> movieList = new ArrayList<>();
 
@@ -173,6 +174,33 @@ public class MovieServiceImpl implements MovieService{
                 movies.isFirst(),
                 movies.isLast(),
                 "전체 영화리스트 반환성공"
+        );
+    }
+
+    @Override
+    public MovieSearchResponse search(MovieSearchRequest request) {
+        Page<Movie> searchMovies = movieRepository.searchByTitle(
+                request.getKeyWord(),
+                PageRequest.of(request.getCurrentPage(),PAGING_SIZE,Sort.by("movie_id").ascending())
+        );
+
+        List <MovieResponseForAllMovie> movieList = new ArrayList<>();
+
+        for(Movie movie : searchMovies){
+
+            MovieResponseForAllMovie response = new MovieResponseForAllMovie(movie.getId(),movie.getTitle(), movie.getMoviePhotoURL());
+            movieList.add(response);
+        }
+
+
+        return new MovieSearchResponse(
+                true,
+                movieList,
+                searchMovies.getNumber(),
+                searchMovies.getTotalPages(),
+                searchMovies.isFirst(),
+                searchMovies.isLast(),
+                "영화 제목 검색어에 대한 영화리스트 반환 성공"
         );
     }
 
@@ -237,6 +265,8 @@ public class MovieServiceImpl implements MovieService{
                 "영화상세 페이지 반환 성공"
         );
     }
+
+
 
 
 }

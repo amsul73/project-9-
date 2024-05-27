@@ -8,6 +8,7 @@ import com.gatchaPedia.demo.member.request.SignUpRequest;
 import com.gatchaPedia.demo.member.response.LoginResponse;
 import com.gatchaPedia.demo.member.response.LogoutResponse;
 import com.gatchaPedia.demo.member.response.SignUpResponse;
+import com.gatchaPedia.demo.member.response.SignoutResponse;
 import com.gatchaPedia.demo.member.service.MemberService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -49,6 +50,13 @@ public class MemberController {
         }
 
         return memberService.signup(signUpRequest);
+    }
+
+
+    @PostMapping("/signout")
+    public SignoutResponse signout(HttpServletRequest request){
+
+        return memberService.signout(request);
     }
 
 

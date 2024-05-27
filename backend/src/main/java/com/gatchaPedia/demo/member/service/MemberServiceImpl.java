@@ -9,6 +9,7 @@ import com.gatchaPedia.demo.member.request.SignUpRequest;
 import com.gatchaPedia.demo.member.response.LoginResponse;
 import com.gatchaPedia.demo.member.response.LogoutResponse;
 import com.gatchaPedia.demo.member.response.SignUpResponse;
+import com.gatchaPedia.demo.member.response.SignoutResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -94,5 +95,21 @@ public class MemberServiceImpl implements MemberService{
         if (httpSession != null) httpSession.invalidate();
 
         return new LogoutResponse(true,"로그아웃 성공");
+    }
+
+
+
+    @Override
+    @Transactional
+    public SignoutResponse signout(HttpServletRequest request) {
+
+        HttpSession session = request.getSession(false);
+        String sessionId = session.getId();
+
+        Member member = (Member) session.getAttribute(sessionId);
+        memberRepository.delete(member);
+        session.invalidate();
+
+        return new SignoutResponse(true, "회원 탈퇴 완료");
     }
 }
