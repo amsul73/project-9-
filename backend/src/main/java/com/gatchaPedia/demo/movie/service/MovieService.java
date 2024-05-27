@@ -16,7 +16,7 @@ public interface MovieService {
 
     AllMovieGetResponse getAllMovies(AllMovieGetRequest request);
 
-    MovieInfoResponse getMovieInfo(MovieInfoRequest request);
+    MovieInfoResponse getMovieInfo(MovieInfoRequest request, HttpServletRequest httpServletRequest);
 
     MovieSearchResponse search(MovieSearchRequest request);
 }
