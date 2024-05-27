@@ -17,5 +17,7 @@ public class MainPageResponse {
 
     private String gatchaPhotoUrl;
 
+    private Long movieId;
+
     private List<RecommendMovieInfo> recommendList;
 }
