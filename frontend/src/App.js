@@ -17,7 +17,7 @@ function App() {
           <Route path="/register" element={< Register/>} />
           <Route path="/mypage" element={< MyPage/>} />
           <Route path="/information/:movieId" element={< Information/>} />
-          <Route path="/list" element={< List/>} />
+          <Route path="/list/:search" element={< List/>} />
         </Routes>
       </header>
     </div>

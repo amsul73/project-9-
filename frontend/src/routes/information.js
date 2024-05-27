@@ -15,10 +15,14 @@ function Information(props) {
     const [overview, setOverview] = useState(null);
     const [rating, setRating] = useState(null);
     const [genres, setGenres] = useState({name:null});
+    const [tags, setTags] = useState({name:null});
+
+    const [bookmark, setBookmark] = useState(false)
 
     useEffect(() => {
         axios.get(`/api/movie/${movieId}`).then(res => {
             if(res.data['success'] === true) {
+                setBookmark(res.data['bookmarkChecked'])
                 setMovieImg(baseurl + res.data['moviePhotoUrl'])
                 setTitle(res.data['title'])
                 setOverview(res.data['overView'])
@@ -48,7 +52,18 @@ function Information(props) {
       };
 
     const BookMark = () => {
-        console.log(1)
+        axios.post(`/api/bookmark/${movieId}`).then(res => {
+            if(res.data['errcode'] == 1000) {
+                alert(res.data['message'])
+                window.document.location = "/login"
+            }
+            if(res.data['success'] === true) {
+                setBookmark(true)
+            }
+            else {
+                setBookmark(false)
+            }
+        })
     }
 
     return (
@@ -65,7 +80,7 @@ function Information(props) {
                 <div className='movie-header'>
                     <div className='movie-head'>
                         <div className='movie-title'>{title}</div>
-                        <button onClick={() => BookMark()}>북마크</button>
+                        <button className={`${(bookmark ? "active" : "")}`} onClick={() => BookMark()}>북마크</button>
                     </div>
                     <div className='movie-description'>
                         <div className='movie-summary'>
