@@ -178,8 +178,10 @@ public class MovieServiceImpl implements MovieService{
 
     @Override
     public MovieSearchResponse search(MovieSearchRequest request) {
+        System.out.println(request.getKeyword());
+
         Page<Movie> searchMovies = movieRepository.searchByTitle(
-                request.getKeyWord(),
+                request.getKeyword(),
                 PageRequest.of(request.getCurrentPage(),PAGING_SIZE,Sort.by("movie_id").ascending())
         );
 
