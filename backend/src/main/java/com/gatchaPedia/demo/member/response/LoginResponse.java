@@ -17,4 +17,6 @@ public class LoginResponse {
 
     private Long memberId;
 
+    private String memberName;
+
 }

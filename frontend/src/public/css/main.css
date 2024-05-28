@@ -17,7 +17,7 @@ body {
 
 hr {
     border: 1px solid #cbcbcb;
-    margin:20px;
+    margin: 20px 0px;
 }
 
 .App {
@@ -25,7 +25,7 @@ hr {
 }
 
 .logo {
-    padding-bottom: 10%;
+    padding-bottom: 50px;
     font-size: 100%;
     color: #ff0000;
 }
@@ -98,37 +98,82 @@ hr {
 /* main.js  */
 
 .movie {
-    display: flex;
     width:100%;
 }
 
 .movie > div > a > img {
-    width: 70%;
-    height: 100%;
+    width:30%;
 }
 
-.movie-genre > p {
-    padding: 10px;
-    border: 1px solid red;
-    border-radius: 10px;
-}
-
-.movie-genre > p:hover {
-    padding: 10px;
-    background-color: #ff0000;
-    border: 1px solid red;
+#g_img {
+    width: 300px;
 }
 
 #reroll {
-    margin-top: 50px;
+    margin-top: 30px;
 }
 
 #reroll > button {
     background-color: #ff0000;
     color:#FFFFFF;
-    width: 30%;
+    width: 150px;
     height:36px;
     border-radius: 10px;
+    cursor: pointer;
+}
+
+#reroll > button:hover {
+    background-color: #ff4343;
+}
+
+.recommend-div.active {
+    display: none;
+}
+
+h5 {
+    margin-top: 50px;
+}
+
+.carousel-div {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 1100px;
+    background-color: #383838;
+    border-radius: 10px;
+    margin-top: 30px;
+    overflow-x:hidden;
+}
+
+.carousel-items {
+    padding-top:7px;
+}
+
+.carousel-button {
+    height:100%;
+    background-color: #0000007f;
+    color:#FFFFFF;
+    padding:15px;
+    cursor: pointer;
+}
+
+.carousel-button.prev, .carousel-button.next {
+    position: absolute;
+}
+
+.carousel-button.prev {
+    left: 0; 
+}
+  
+.carousel-button.next {
+    right: 0;
+}
+
+.carousel-img {
+    width: 150px;
+    height: 200px;
+    margin: 0px 10px;
 }
 
 /* mypage.js */
@@ -176,6 +221,15 @@ hr {
 
 .mypage-main > a:nth-child(1) {
     font-size: 20px;
+}
+
+.mypage-bookmark {
+    margin:5px;
+    font-size: 20px;
+}
+
+.mypage-bookmark > a {
+    color: #FFFFFF;
 }
 
 #menu-form > input {
@@ -228,6 +282,7 @@ input[type="password"]::placeholder {
 /* information.js */
 
 .information-movie {
+    width: 1100px;
     display: flex;
     background-color: #2d2d2d;
     padding: 40px;
@@ -236,28 +291,52 @@ input[type="password"]::placeholder {
 }
 
 .movie-poster > img {
-    width:60%;
+    width:250px;
+    margin: 0px 50px 0px 0px;
+}
+
+.movie-genre {
+    width: 250px;
+    height:150px;
+}
+
+.movie-head {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 5%;
 }
 
 .movie-title {
-    display: flex;
-    padding-bottom: 5%;
+    font-size: 40px;
+    font-weight: bolder;
+    margin-right: 10px;
 }
 
-.movie-title > div {
-    margin-right: 36%;
-}
-
-.movie-title > button {
+.movie-head > button {
     width:100px;
-    margin-left:36%;
+    height: 40px;
     background-color: #008800;
     color: #FFFFFF;
     border-radius: 10px;
+    cursor: pointer;
+}
+
+.movie-head > button.active {
+    background-color: #ff0000;
+}
+
+.movie-description {
+    width: 700px;
 }
 
 .movie-summary {
+    font-size: 20px;
+    text-align: left;
     padding-bottom: 5%;
+}
+
+.movie-summary > p:nth-child(1) {
+    font-size: 30px;
 }
 
 .rating {
@@ -266,12 +345,12 @@ input[type="password"]::placeholder {
 }
 
 .rating > p {
-    font-size: 25px;
-    margin-right: 10px;
+    font-size: 30px;
+    margin-right: 40px;
 }
 
-.star-rating {
-    display: flex;
+.star-rating > p {
+    font-size: 25px;
 }
 
 .star {
@@ -280,21 +359,11 @@ input[type="password"]::placeholder {
 }
 
 .star::after {
-    content: '☆';
+    content: '★';
     color: hsl(60, 80%, 45%);
     font-size: 20px;
 }
 
-.star:hover::after,
-.star:has(~ .star:hover)::after,
-.star:checked::after,
-.star:has(~ .star:checked)::after {
-    content: '★';
-}
-
-.star:hover ~ .star::after {
-    content: '☆';
-}
 
 .movie-comment {
     background-color: #2d2d2d;
@@ -318,6 +387,78 @@ input[type="password"]::placeholder {
     padding-bottom: 50%;
 }
 
+.grid-item > a {
+    color: #FFFFFF;
+}
+
 .grid-img {
     width: 100%;
 }
+
+.grid-title {
+    margin-top: 15px;
+    font-size: 15px;
+}
+
+/* pagination */
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+ul.pagination li {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 15px;
+    border-radius: 10px;
+}
+
+ul.pagination li:first-child{
+    border-radius: 5px 0 0 5px;
+}
+
+ul.pagination li:last-child{
+    border-radius: 0 5px 5px 0;
+}
+
+ul.pagination li a {
+    text-decoration: none;
+    color: #ffffff;
+    font-size: 20px;
+}
+
+ul.pagination li.active a {
+    color: white;
+}
+
+ul.pagination li a:hover {
+    color: rgb(200, 46, 46);
+}
+
+ul.pagination li.active a:hover {
+    color: white;
+}
+
+ul.pagination li.active {
+    background-color: rgb(200, 46, 46);
+}
+
+.page-selection {
+    width: 48px;
+    height: 30px;
+    color: rgb(200, 46, 46);
+}
+
+
+
