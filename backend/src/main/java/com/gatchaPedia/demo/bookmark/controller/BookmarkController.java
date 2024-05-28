@@ -16,7 +16,6 @@ public class BookmarkController {
     private final BookmarkService bookmarkService;
 
 
-
     @PostMapping("/bookmark/{movieId}")
     public BookmarkCreateOrDeleteResponse bookmark(@PathVariable("movieId") Long movieId,
                                                    HttpServletRequest request){

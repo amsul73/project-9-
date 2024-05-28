@@ -113,7 +113,7 @@ public class MovieServiceImpl implements MovieService{
 
         List<Long> movieIds = new ArrayList<>();
 
-        if (bookmarks == null) return new MainPageResponse(true,randomMovie.getMoviePhotoURL(),randomMovie.getId(),null);
+        if (bookmarks.isEmpty()) return new MainPageResponse(true,randomMovie.getMoviePhotoURL(),randomMovie.getId(),null);
 
         for (Bookmark bookmark : bookmarks){
             movieIds.add(bookmark.getMovie().getId());
@@ -154,7 +154,7 @@ public class MovieServiceImpl implements MovieService{
     @Override
     public AllMovieGetResponse getAllMovies(AllMovieGetRequest request) {
 
-        Page<Movie> movies = movieRepository.findAll(PageRequest.of(request.getCurrentPage(),PAGING_SIZE,Sort.by("movie_id").ascending()));
+        Page<Movie> movies = movieRepository.findAll(PageRequest.of(request.getCurrentPage(),PAGING_SIZE,Sort.by("Id").ascending()));
 
         List <MovieResponseForAllMovie> movieList = new ArrayList<>();
 
@@ -190,7 +190,8 @@ public class MovieServiceImpl implements MovieService{
             MovieResponseForAllMovie response = new MovieResponseForAllMovie(movie.getId(),movie.getTitle(), movie.getMoviePhotoURL());
             movieList.add(response);
         }
-
+        System.out.println("hello");
+        System.out.println(searchMovies.getContent().size());
 
         return new MovieSearchResponse(
                 true,
