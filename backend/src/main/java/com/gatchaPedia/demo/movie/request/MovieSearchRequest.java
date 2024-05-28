@@ -11,7 +11,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class MovieSearchRequest {
 
-    private Integer currentPage;
+    private int currentPage;
 
-    private String keyWord;
+    private String keyword;
 }

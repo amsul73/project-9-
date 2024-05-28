@@ -64,6 +64,7 @@ public class MovieController {
     public MovieSearchResponse movieSearch(@PathVariable("currentPage") int currentPage,
                                            @RequestBody MovieSearchRequest request){
 
+
         request.setCurrentPage(currentPage);
 
         return movieService.search(request);
