@@ -5,10 +5,7 @@ import com.gatchaPedia.demo.member.exception.LoginInputInvalidException;
 import com.gatchaPedia.demo.member.exception.SignUpInvalidInputException;
 import com.gatchaPedia.demo.member.request.LoginRequest;
 import com.gatchaPedia.demo.member.request.SignUpRequest;
-import com.gatchaPedia.demo.member.response.LoginResponse;
-import com.gatchaPedia.demo.member.response.LogoutResponse;
-import com.gatchaPedia.demo.member.response.SignUpResponse;
-import com.gatchaPedia.demo.member.response.SignoutResponse;
+import com.gatchaPedia.demo.member.response.*;
 import com.gatchaPedia.demo.member.service.MemberService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -59,6 +56,12 @@ public class MemberController {
         return memberService.signout(request);
     }
 
+
+    @GetMapping("/session")
+    public InvaildSessionCheckResponse sessionCheck(HttpServletRequest request){
+
+        return memberService.sessionCheck(request);
+    }
 
     @PostMapping("/login")
     public LoginResponse login(@Validated @RequestBody LoginRequest loginRequest, BindingResult bindingResult, HttpServletRequest request){

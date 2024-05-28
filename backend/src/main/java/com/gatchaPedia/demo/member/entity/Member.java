@@ -31,9 +31,9 @@ public class Member {
     @Column(unique = true, nullable = false)
     private String email;
 
-    // member에 One To many를 여는거는 비권장이긴하지만 일단 작동하는 앱을 만들기위해 열었음
-//    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
-//    private List<Bookmark> bookmarks;
+//     member에 One To many를 여는거는 비권장이긴하지만 일단 작동하는 앱을 만들기위해 열었음
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<Bookmark> bookmarks;
 
 
 }
