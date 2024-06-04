@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Header from '../component/header';
 import '../public/css/main.css'
-import Poster from '../public/img/poster.jpg';
 import axios from 'axios';
 
 function Main(props) {

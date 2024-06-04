@@ -24,9 +24,12 @@ const Register = () => {
                     email:email,
                 })
                 console.log(res.data)
-                alert(res.data['message'])
                 if(res.data['success'] === true) {
+                    alert(res.data['message'])
                     window.location.href="/"
+                }
+                else{
+                    alert(res.data['errorMessages'])
                 }
             } catch(err) {
                 console.error(err)

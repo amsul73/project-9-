@@ -22,10 +22,12 @@ const Login = () => {
                 username:username,
                 password:password,
             })
-            alert(res.data['message'])
             if(res.data['success'] === true) {
-                Header.loginData = res.data
+                alert(res.data['message'])
                 window.location.href="/"
+            }
+            else {
+                alert(res.data['message'])
             }
         } catch(err) {
             console.error(err)
