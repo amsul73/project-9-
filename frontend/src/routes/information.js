@@ -3,6 +3,9 @@ import Header from '../component/header';
 import '../public/css/main.css'
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import Star from '../public/img/star.png';
+import Half_star from '../public/img/half_star.png';
+import Empty_star from '../public/img/empty_star.png';
 
 function Information(props) {
 
@@ -14,8 +17,8 @@ function Information(props) {
     const [title, setTitle] = useState(null);
     const [overview, setOverview] = useState(null);
     const [rating, setRating] = useState(null);
-    const [genres, setGenres] = useState({name:null});
-    const [tags, setTags] = useState({name:null});
+    const [genres, setGenres] = useState(null);
+    const [tags, setTags] = useState(null);
 
     const [bookmark, setBookmark] = useState(false)
 
@@ -27,7 +30,9 @@ function Information(props) {
                 setTitle(res.data['title'])
                 setOverview(res.data['overView'])
                 setRating(res.data['rating'])
-                //setGenres([...genres, {name:res.data['genres']}]) 
+                setGenres(res.data['genres'])
+                setTags(res.data['tags'])
+                //console.log(res.data)
             }
             else {
                 console.log("데이터를 받아오는데 실패했습니다.")
@@ -39,13 +44,13 @@ function Information(props) {
         const stars = [];
         for (let i = 1; i <= 5; i++) {
             if (i <= Math.floor(rating)) {
-                stars.push(<span key={i}>&#9733;</span>);
+                stars.push(<img className="star" key={i} src={Star}/>);
             } 
             else if (i === Math.ceil(rating) && rating % 1 !== 0) {
-                stars.push(<span key={i}>&#9731;</span>);
+                stars.push(<img className="star" key={i} src={Half_star} />);
             } 
             else {
-                stars.push(<span key={i}>&#9734;</span>);
+                stars.push(<img className="star" key={i} src={Empty_star}/>);
             }
         }
         return stars;
@@ -74,7 +79,13 @@ function Information(props) {
                 <div className='movie-poster'>
                     <img src={movieimg}/>
                     <div className='movie-genre'>
-                        
+                        <div>장르</div>
+                        {(genres !== null) ? 
+                        genres.map((elem, idx) => {
+                            return (<div className='genre-item'>{elem['name']}</div>)
+                        })
+                        : 0
+                        }
                     </div>
                 </div>
                 <div className='movie-header'>
@@ -95,14 +106,17 @@ function Information(props) {
                                 <p>{renderStars()}</p>
                             </div>
                         </div>
+                        <div className='movie-tags'>
+                            <div>태그</div>
+                            {(genres !== null) ? 
+                            tags.map((elem, idx) => {
+                                return (<span className='tag-item'>{elem['name']}</span>)
+                            })
+                            : 0
+                            }
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div className='movie-comment'>
-                asas
-            </div>
-            <div className='movie-comment'>
-                asas
             </div>
         </div>
     );

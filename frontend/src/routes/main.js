@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Header from '../component/header';
 import '../public/css/main.css'
-import Poster from '../public/img/poster.jpg';
 import axios from 'axios';
 
 function Main(props) {
@@ -66,7 +65,7 @@ function Main(props) {
                 <button onClick={Gacha}>Gacha</button>
             </div>
             <div className={`recommend-div ${(notlogin ? "active" : "")}`}>
-                <h5>Recommend For You (리뷰기반 추천 목록)</h5>
+                <h5>Recommend For You (북마크 기반 추천 목록)</h5>
                 <div className='carousel-div'>
                     <button onClick={prevButton} className="carousel-button prev" >
                         ❮

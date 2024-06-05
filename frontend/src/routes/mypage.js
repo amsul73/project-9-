@@ -53,6 +53,7 @@ function MyPage(props) {
             axios.post("/api/signout").then(res => {
                 if(res.data['success'] === true) {
                     alert(res.data['message'])
+                    window.document.href = '/'
                 }
                 else {
                     console.log("데이터를 받아오는데 실패했습니다.")

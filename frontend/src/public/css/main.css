@@ -296,8 +296,21 @@ input[type="password"]::placeholder {
 }
 
 .movie-genre {
+    margin-top: 15px;
     width: 250px;
     height:150px;
+}
+
+.genre-item {
+    font-size: 15px;
+}
+
+.movie-tags {
+    margin-top: 15px;
+}
+
+.tag-item {
+    font-size: 15px;
 }
 
 .movie-head {
@@ -354,15 +367,10 @@ input[type="password"]::placeholder {
 }
 
 .star {
-    appearance: none;
-    padding: 1px;
+    width:30px;
+    height:30px;
 }
 
-.star::after {
-    content: '★';
-    color: hsl(60, 80%, 45%);
-    font-size: 20px;
-}
 
 
 .movie-comment {
